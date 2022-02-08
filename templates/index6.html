@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <title>横向两列布局</title>
+<style>
+*{margin:0;padding:0;}
+#warp{
+    width:98%;
+    margin:0 auto;
+    margin-top:5px;
+}
+#herder{
+    height:50px;
+    background:blue;
+}
+#nav{
+    height:30px;
+    background:orange;
+    margin:5px 0;
+}
+#main{
+    width:100%;
+    margin-bottom:2px;
+    overflow:hidden;
+}
+#main .main-left{
+    width:49.9%;
+    height:445px;
+    background: #fdffe6;
+    float:left;
+}
+#main .main-right{
+    width:49.9%;
+    height:445px;
+    background: #fff8f3;
+    float:right;
+}
+#content{
+    width:100%;
+    overflow:hidden;
+}
+#content .content-left{
+    width:49.9%;
+    height:445px;
+    background: #e8eec9;
+    float:left;
+}
+#content .content-right{
+    width:49.9%;
+    height:445px;
+    background: #eee4c7;
+    float:right;
+}
+#content .content-right-sup{
+    width:300px;
+    height:500px;
+    background: #fffdf4;
+    float:right;
+}
+#content .content-right-sub{
+    width:300px;
+    height:240px;
+    background: #fff3da;
+    margin-top:20px;
+    float:right;
+}
+</style>
+</head>
+<body>
+
+<div id="warp" >
+    <input id="baridtest" value="{{ data|safe }}()">
+    <div id="nav">导航</div>
+    <div id="main">
+        <div class="main-left" id="main-left">左-上</div>
+        <div class="main-right" id="main-right">右-上</div>
+    </div>
+    <div id="content">
+        <div class="content-left" id="content-left">左-下</div>
+        <div class="content-right" id="content-right">右-上</div>
+    </div>
+</div>
+
+<script>
+        var charttwo = echarts.init(document.getElementById('main-right'), 'white', {renderer: 'canvas'});
+        var str =JSON.parse("{{ data|safe }}")
+
+    </script>
+
+</body>
+</html>

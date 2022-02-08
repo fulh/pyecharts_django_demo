@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <title>横向两列布局</title>
+<style>
+*{margin:0;padding:0;}
+#warp{
+    width:98%;
+    margin:0 auto;
+    margin-top:10px;
+}
+#herder{
+    height:50px;
+    background:blue;
+}
+#nav{
+    height:30px;
+    background:orange;
+    margin:5px 0;
+}
+#main{
+    width:100%;
+    margin-bottom:10px;
+    overflow:hidden;
+}
+#main .main-left{
+    width:49.8%;
+    height:420px;
+    background:yellow;
+    float:left;
+}
+#main .main-right{
+    width:49.8%;
+    height:420px;
+    background:pink;
+    float:right;
+}
+#content{
+    width:100%;
+    overflow:hidden;
+}
+#content .content-left{
+    width:49.8%;
+    height:420px;
+    background:lightgreen;
+    float:left;
+}
+#content .content-right{
+    width:49.8%;
+    height:420px;
+    background:lightgreen;
+    float:right;
+}
+#content .content-right-sup{
+    width:300px;
+    height:500px;
+    background:lightblue;
+    float:right;
+}
+#content .content-right-sub{
+    width:300px;
+    height:240px;
+    background:purple;
+    margin-top:20px;
+    float:right;
+}
+</style>
+</head>
+<body>
+<div id="warp">
+    <div id="nav">导航</div>
+    <div id="main">
+        <div class="main-left" id="main-left">左-上</div>
+        <div class="main-right" id="main-right">右-上</div>
+    </div>
+    <div id="content">
+        <div class="content-left" id="content-left">左-下</div>
+        <div class="content-right" id="content-right">右-上</div>
+    </div>
+</div>
+<script>
+        var chartone = echarts.init(document.getElementById('main-left'), 'white', {renderer: 'canvas'});
+        var charttwo = echarts.init(document.getElementById('main-right'), 'white', {renderer: 'canvas'});
+        url="http://127.0.0.1:8000/demo/bar/"
+
+        $(
+            function bbb() {
+                fetchmainleft(charttwo);
+            }
+        );
+
+        function fetchmainleft() {
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8000/demo/Cultivates/2",
+                dataType: 'json',
+                success: function (result) {
+                    for (ac in result.data.series){
+                        console.log(result.data)
+                        console.log(typeof result.data)
+                        var aa = result.data.series[ac].itemStyle
+                        result.data.series[ac].itemStyle['color'] = dc
+
+                    }
+                    chartone.setOption(result.data);
+                    chartone.on("click",function (e) {
+                        console.log(e)
+                        var id =e.data.id
+                        fetchmainright(id)
+                    })
+
+                }
+            });
+
+        }
+        function fetchmainright(id) {
+            $.ajax({
+                type: "GET",
+                url: url+id,
+                dataType: 'json',
+                success: function (result) {
+                    for (ac in result.data.series){
+                        console.log(result.data)
+                        console.log(typeof result.data)
+                        var aa = result.data.series[ac].itemStyle
+                        result.data.series[ac].itemStyle['color'] = dc
+
+                    }
+                    charttwo.setOption(result.data);
+                }
+            });
+
+        }
+        function dc(params) {
+			if (params.value > 0 && params.value < 50) {
+				return 'blue';
+			} else if (params.value > 50 && params.value < 100) {
+				return 'red';
+			}
+			return 'green';
+		}
+    </script>
+</body>
+</html>
